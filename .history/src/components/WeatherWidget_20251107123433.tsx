@@ -56,7 +56,7 @@ export const WeatherWidget = () => {
 
   return (
     <div
-      className={`theme-container flex flex-col items-center justify-center
+      className={`theme-glass flex flex-col items-center justify-center
                   w-[150px] h-[100px] transition-all duration-500`}
     >
       <div className="flex items-center gap-4">

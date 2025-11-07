@@ -8,7 +8,7 @@ export const NoteInput = () => {
         placeholder="Escribe una nota..."
         className="flex-1 text-sm px-3 py-2 rounded-lg 0 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
       />
-      <button type="submit" className="p-2 rounded-full ">
+      <button type="submit" className="p-2  rounded-full  transition-colors">
         <IoMdSend size={16} />
       </button>
     </form>

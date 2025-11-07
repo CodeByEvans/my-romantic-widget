@@ -22,11 +22,11 @@ export const Clock = () => {
 
   return (
     <div className=" rounded-xl  px-3 py-2 flex flex-col items-center justify-center w-[150px] h-[130px] theme-container">
-      <h1 className="text-2xl font-mono tracking-widest text-white">
+      <p className="text-2xl font-mono tracking-widest text-white">
         {hours}:{minutes}
-      </h1>
-      <p className="text-xs mt-1 capitalize">{day}</p>
-      <small className="text-xs ">{date}</small>
+      </p>
+      <p className="text-xs text-white-600 mt-1 capitalize">{day}</p>
+      <p className="text-xs text-white-500">{date}</p>
     </div>
   );
 };

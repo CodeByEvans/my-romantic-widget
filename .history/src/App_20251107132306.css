@@ -33,9 +33,6 @@
   --button-bg-active: #93c5fd;
   --button-text: #ffffff;
   --button-border: #93c5fd;
-
-  /* === Colores de los containers === */
-  --container-border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* ======== ESTILO GLOBAL DE LA APP ======== */
@@ -91,12 +88,15 @@ button:active {
 
 .theme-container {
   border-radius: 16px;
-  border: 1px solid var(--container-border-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--surface-bg);
+  backdrop-filter: blur(18px) saturate(160%);
   position: relative;
   overflow: hidden;
 }
 
-[data-theme="glass"] .theme-container::before {
+/* Capa de brillo sutil */
+.theme-container::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -105,11 +105,12 @@ button:active {
   transition: opacity 0.5s;
 }
 
-[data-theme="glass"] .theme-container:hover::before {
+.theme-glass:hover::before {
   opacity: 0.2;
 }
 
-[data-theme="glass"] .theme-container::after {
+/* Reflejo superior */
+.theme-container::after {
   content: "";
   position: absolute;
   top: 0;

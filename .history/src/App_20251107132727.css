@@ -36,6 +36,33 @@
 
   /* === Colores de los containers === */
   --container-border-color: rgba(255, 255, 255, 0.15);
+
+  /* === Brillo de los containers === */
+
+  /* Capa de brillo sutil */
+  .theme-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .theme-glass:hover::before {
+    opacity: 0.2;
+  }
+
+  /* Reflejo superior */
+  .theme-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+  }
 }
 
 /* ======== ESTILO GLOBAL DE LA APP ======== */
@@ -94,27 +121,4 @@ button:active {
   border: 1px solid var(--container-border-color);
   position: relative;
   overflow: hidden;
-}
-
-[data-theme="glass"] .theme-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-[data-theme="glass"] .theme-container:hover::before {
-  opacity: 0.2;
-}
-
-[data-theme="glass"] .theme-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.4);
 }

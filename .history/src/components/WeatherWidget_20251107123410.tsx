@@ -1,45 +1,3 @@
-import { JSX } from "react";
-import { useWeather } from "../hooks/useWeather";
-import {
-  WiDaySunny,
-  WiCloud,
-  WiRain,
-  WiSnow,
-  WiThunderstorm,
-  WiFog,
-  WiDayHaze,
-} from "react-icons/wi";
-
-const weatherStyles: Record<string, { icon: JSX.Element }> = {
-  Thunderstorm: {
-    icon: <WiThunderstorm size={32} />,
-  },
-  Drizzle: {
-    icon: <WiRain size={32} />,
-  },
-  Rain: {
-    icon: <WiRain size={32} />,
-  },
-  Snow: {
-    icon: <WiSnow size={32} />,
-  },
-  Mist: {
-    icon: <WiFog size={32} />,
-  },
-  Haze: {
-    icon: <WiDayHaze size={32} />,
-  },
-  Clear: {
-    icon: <WiDaySunny size={32} />,
-  },
-  Clouds: {
-    icon: <WiCloud size={32} />,
-  },
-  Fog: {
-    icon: <WiFog size={32} />,
-  },
-};
-
 export const WeatherWidget = () => {
   const { data, loading, errorWeather } = useWeather();
 
@@ -56,7 +14,7 @@ export const WeatherWidget = () => {
 
   return (
     <div
-      className={`theme-container flex flex-col items-center justify-center
+      className={`theme-glass flex flex-col items-center justify-center
                   w-[150px] h-[100px] transition-all duration-500`}
     >
       <div className="flex items-center gap-4">

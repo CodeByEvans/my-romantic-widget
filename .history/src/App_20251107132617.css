@@ -96,7 +96,8 @@ button:active {
   overflow: hidden;
 }
 
-[data-theme="glass"] .theme-container::before {
+/* Capa de brillo sutil */
+.theme-container::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -105,11 +106,12 @@ button:active {
   transition: opacity 0.5s;
 }
 
-[data-theme="glass"] .theme-container:hover::before {
+.theme-glass:hover::before {
   opacity: 0.2;
 }
 
-[data-theme="glass"] .theme-container::after {
+/* Reflejo superior */
+.theme-container::after {
   content: "";
   position: absolute;
   top: 0;

@@ -14,30 +14,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-[data-theme="glass"] {
-  /* Fondo general translúcido */
-  --surface-bg: rgba(0, 0, 0, 0.3);
-  --surface-border: rgba(255, 255, 255, 0.15);
-  --surface-blur: blur(18px) saturate(160%);
-
-  /* === Inputs sólidos === */
-  --input-bg: #be3030;
-  --input-text: #1f2937;
-  --input-placeholder: #6b7280;
-  --input-border: #e5e7eb;
-  --input-border-focus: #93c5fd;
-  --focus-ring: #93c5fd;
-
-  /* === Botones sólidos === */
-  --button-bg: rgba(30, 30, 30, 0.7);
-  --button-bg-active: #93c5fd;
-  --button-text: #ffffff;
-  --button-border: #93c5fd;
-
-  /* === Colores de los containers === */
-  --container-border-color: rgba(255, 255, 255, 0.15);
-}
-
 /* ======== ESTILO GLOBAL DE LA APP ======== */
 main {
   position: relative;
@@ -51,8 +27,8 @@ main {
   padding: 1rem;
 
   /* Fondo cristal oscuro */
-  background: var(--surface-bg);
-  backdrop-filter: var(--surface-blur);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(18px) saturate(160%);
   -webkit-app-region: drag; /* Permitir mover la ventana */
 }
 
@@ -65,38 +41,48 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: var(--button-text);
-  background-color: var(--button-bg);
+  color: #fff;
+  background-color: rgba(30, 30, 30, 0.7);
   transition: border-color 0.25s, background-color 0.25s;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-app-region: no-drag;
 }
 
-input::placeholder {
-  color: var(--input-placeholder);
-}
-
-input:focus {
-  border-color: var(--input-border-focus);
-  outline: none;
-}
-
 button:hover {
-  border-color: var(--button-border);
+  border-color: #396cd8;
 }
 
 button:active {
-  background-color: var(--button-bg-active);
+  background-color: rgba(40, 40, 40, 0.7);
 }
 
-.theme-container {
+/* Enlaces */
+a {
+  font-weight: 500;
+  color: #61dafb;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #24c8db;
+}
+
+/* Otros elementos */
+h1 {
+  text-align: center;
+}
+
+.theme-glass {
   border-radius: 16px;
-  border: 1px solid var(--container-border-color);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px) saturate(160%);
   position: relative;
   overflow: hidden;
 }
 
-[data-theme="glass"] .theme-container::before {
+/* Capa de brillo sutil */
+.theme-glass::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -105,11 +91,12 @@ button:active {
   transition: opacity 0.5s;
 }
 
-[data-theme="glass"] .theme-container:hover::before {
+.theme-glass:hover::before {
   opacity: 0.2;
 }
 
-[data-theme="glass"] .theme-container::after {
+/* Reflejo superior */
+.theme-glass::after {
   content: "";
   position: absolute;
   top: 0;

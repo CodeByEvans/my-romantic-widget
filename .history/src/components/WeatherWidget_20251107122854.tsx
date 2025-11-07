@@ -56,9 +56,17 @@ export const WeatherWidget = () => {
 
   return (
     <div
-      className={`theme-container flex flex-col items-center justify-center
-                  w-[150px] h-[100px] transition-all duration-500`}
+      className={`relative flex flex-col items-center justify-center rounded-2xl
+                  w-[150px] h-[100px]
+                  border border-white/20 overflow-hidden transition-all duration-500`}
     >
+      {/* sutil capa de brillo animado */}
+      <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-20 transition-opacity duration-500" />
+
+      {/* borde de reflejo superior */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/40" />
+
+      {/* contenido */}
       <div className="flex items-center gap-4">
         <div className="animate-pulse-slow">{style.icon}</div>
         <div className="flex flex-col items-start leading-tight">
