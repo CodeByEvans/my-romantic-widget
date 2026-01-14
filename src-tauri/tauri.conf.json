@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "my-romantic-widget",
+  "productName": "Cathub",
   "version": "0.1.0",
   "identifier": "com.evans.my-romantic-widget",
   "build": {
@@ -10,19 +10,43 @@
     "frontendDist": "../dist"
   },
   "app": {
+    "enableGTKAppId": false,
+    "macOSPrivateApi": true,
+    "security": {
+      "assetProtocol": {
+        "enable": false,
+        "scope": []
+      },
+      "capabilities": [
+        {
+          "identifier": "draggable-window",
+          "windows": [
+            "*"
+          ],
+          "permissions": [
+            "core:window:allow-start-dragging"
+          ]
+        }
+      ],
+      "dangerousDisableAssetCspModification": false,
+      "freezePrototype": false,
+      "pattern": {
+        "use": "brownfield"
+      },
+      "csp": null
+    },
     "windows": [
       {
-        "title": "my-romantic-widget",
+        "title": "Cathub",
         "width": 800,
         "height": 200,
         "resizable": false,
         "transparent": true,
-        "decorations": false
+        "decorations": false,
+        "fullscreen": false
       }
     ],
-    "security": {
-      "csp": null
-    }
+    "withGlobalTauri": false
   },
   "bundle": {
     "active": true,
@@ -33,6 +57,26 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "macOS": {
+      "dmg": {
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        },
+        "windowSize": {
+          "height": 400,
+          "width": 660
+        }
+      },
+      "files": {},
+      "hardenedRuntime": true,
+      "minimumSystemVersion": "10.13",
+      "entitlements": "entitlements.plist"
+    }
   }
 }

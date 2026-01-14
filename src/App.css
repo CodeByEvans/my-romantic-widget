@@ -49,6 +49,7 @@ main {
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem;
+  border-radius: 10px;
 
   /* Fondo cristal oscuro */
   background: var(--surface-bg);

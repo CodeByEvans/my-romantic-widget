@@ -1,9 +1,10 @@
 import "./App.css";
-import { Clock } from "./components/Clock";
-import { WeatherWidget } from "./components/WeatherWidget";
-import { NotesList } from "./components/NotesList";
-import { NoteInput } from "./components/NoteInput";
-import { CallButton } from "./components/CallButton";
+import { Clock } from "./modules/clock/components/Clock";
+import { Weather } from "./modules/weather/components/Weather";
+
+import { CallButton } from "./modules/call/components/CallButton";
+import { NotesList } from "./modules/notes/components/NotesList";
+import { NoteInput } from "./modules/notes/components/NoteInput";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       {/* Clima + Reloj */}
       <section className="flex flex-col justify-between items-center h-full w-[180px] gap-2">
         <Clock />
-        <WeatherWidget />
+        <Weather />
       </section>
 
       {/* Notas + input */}
