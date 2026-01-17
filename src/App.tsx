@@ -8,7 +8,7 @@ import { NoteInput } from "./modules/notes/components/NoteInput";
 
 function App() {
   return (
-    <main data-tauri-drag-region data-theme="glass">
+    <main data-tauri-drag-region>
       {/* Clima + Reloj */}
       <section className="flex flex-col justify-between items-center h-full w-[180px] gap-2">
         <Clock />

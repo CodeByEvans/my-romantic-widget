@@ -8,6 +8,7 @@
   "permissions": [
     "core:default",
     "opener:default",
-    "geolocation:default"
+    "geolocation:default",
+    "store:default"
   ]
 }
