@@ -24,7 +24,10 @@
             "*"
           ],
           "permissions": [
-            "core:window:allow-start-dragging"
+            "core:window:default",
+            "core:window:allow-start-dragging",
+            "store:default",
+            "core:window:allow-set-size"
           ]
         }
       ],
@@ -37,13 +40,15 @@
     },
     "windows": [
       {
+        "label": "main",
         "title": "Cathub",
         "width": 800,
         "height": 200,
         "resizable": false,
         "transparent": true,
         "decorations": false,
-        "fullscreen": false
+        "fullscreen": false,
+        "shadow": false
       }
     ],
     "withGlobalTauri": false

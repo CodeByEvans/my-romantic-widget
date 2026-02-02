@@ -1,32 +1,42 @@
+import { useEffect } from "react";
 import "./App.css";
-import { Clock } from "./modules/clock/components/Clock";
-import { Weather } from "./modules/weather/components/Weather";
 
-import { CallButton } from "./modules/call/components/CallButton";
-import { NotesList } from "./modules/notes/components/NotesList";
-import { NoteInput } from "./modules/notes/components/NoteInput";
+import { CallSection } from "./modules/call/components/CallSection";
+import { ClockSection } from "./modules/clock/components/ClockSection";
+import { NotesSection } from "./modules/notes/components/NotesSection";
+import { load } from "@tauri-apps/plugin-store";
+import React from "react";
+import LinkModal from "./modules/connection/components/LinkModal";
 
 function App() {
+  const [userLinked, setUserLinked] = React.useState(false);
+  const [connecitonId, setConnecitonId] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const store = await load("store.json");
+        const userLinked = await store.get<boolean>("user_linked");
+        setUserLinked(userLinked === true ? true : false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    init();
+  }, []);
   return (
-    <main data-tauri-drag-region>
+    <main
+      className="w-[800px] h-[200px] rounded-xl border border-border/50 shadow-xl overflow-hidden py-4"
+      data-tauri-drag-region
+    >
+      {userLinked ? null : <LinkModal isOpen={true} />}
       {/* Clima + Reloj */}
-      <section className="flex flex-col justify-between items-center h-full w-[180px] gap-2">
-        <Clock />
-        <Weather />
-      </section>
+      <section className="flex h-full divide-x divide-border/30">
+        <ClockSection partnerName="Alex" />
 
-      {/* Notas + input */}
-      <section className="flex flex-col justify-between h-full flex-1">
-        <NotesList />
-        <NoteInput />
-      </section>
+        <NotesSection notes={[]} onSendNote={() => {}} />
 
-      {/* Llamada */}
-      <section className="flex flex-col justify-center items-center h-full w-[150px]">
-        <CallButton />
-        <p className="text-xs text-gray-200 mt-2 drop-shadow-sm">
-          Última conexión: hace 2 h
-        </p>
+        <CallSection lastConnection={null} isOnline={false} onCall={() => {}} />
       </section>
     </main>
   );
