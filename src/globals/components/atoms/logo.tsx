@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { animate, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface CathubLogoProps {
   size?: "sm" | "md" | "lg";

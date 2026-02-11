@@ -1,18 +1,42 @@
 import { Input } from "@/globals/components/atoms/input";
-import React from "react";
+
+import React, { useEffect } from "react";
+
 import { toast } from "sonner";
-import { generateLink } from "../services/generateLink.service.ts";
 
-interface LinkModalProps {
-  isOpen?: boolean;
-  onClose?: () => void;
-}
+import { load } from "@tauri-apps/plugin-store";
+import { connectionService } from "../services/connection.service";
 
-export const LinkModal: React.FC<LinkModalProps> = ({
-  isOpen = false,
-  onClose,
-}) => {
-  const dummyLink = "https://example.com/dummy-link";
+export const LinkModal: React.FC = () => {
+  const [invitationLink, setInvitationLink] = React.useState("");
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        // Primero revisamos si ya tenemos un enlace generado en el store
+        const store = await load("store.json");
+        let link = await store.get<string>("connection_link_request_link");
+        // Si no hay enlace en el store, intentamos obtener uno desde el backend o generarlo
+        if (!link) {
+          link =
+            (await connectionService.getConnectionRequestLink()) ||
+            (await connectionService.generateLink());
+          // Si obtenemos un enlace, lo guardamos en el store para futuras referencias
+          if (link) {
+            await store.set("connection_link_request_link", link);
+            await store.save();
+            setInvitationLink(link);
+          }
+        } else {
+          setInvitationLink(link);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error al generar el enlace de conexión");
+      }
+    };
+    init();
+  }, []);
 
   const shareLink = (link: string) => {
     navigator.share({
@@ -21,8 +45,6 @@ export const LinkModal: React.FC<LinkModalProps> = ({
       url: link,
     });
   };
-
-  if (!isOpen) return null;
 
   return (
     <div
@@ -40,14 +62,9 @@ export const LinkModal: React.FC<LinkModalProps> = ({
         {/* Cajoncito con el enlace y botón de copiar */}
 
         <div className="flex items-center mb-4">
-          <Input value={dummyLink} readOnly className="flex-1 mr-2" />
+          <Input value={invitationLink} readOnly className="flex-1 mr-2" />
           <button
-            onClick={() =>
-              generateLink(
-                "49f05447-e8d8-4ab4-8c7a-63fbdd99670f",
-                "49f05447-e8d8-4ab4-8c7a-63fbdd99670f",
-              )
-            }
+            onClick={() => shareLink(invitationLink)}
             className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition"
           >
             Compartir

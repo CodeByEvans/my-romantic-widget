@@ -1,26 +1,58 @@
-"use client";
-
-import React from "react";
-
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Send } from "lucide-react";
 import { Input } from "@/globals/components/atoms/input";
 import { Button } from "@/globals/components/atoms/button";
 
+import { Note as NoteType } from "../@types/notes.types";
+import { notesService } from "../services/notes.service";
+
 interface Note {
-  id: string;
+  id: number;
   content: string;
-  fromPartner: boolean;
   timestamp: Date;
 }
 
 interface NotesSectionProps {
-  notes: Note[];
   onSendNote: (content: string) => void;
 }
 
-export function NotesSection({ notes, onSendNote }: NotesSectionProps) {
+export function NotesSection({ onSendNote }: NotesSectionProps) {
+  const [latestNote, setLatestNote] = useState<Note | null>(null);
   const [newNote, setNewNote] = useState("");
+
+  // Obtener la última nota del otro usuario al montar
+  useEffect(() => {
+    const fetchLastNote = async () => {
+      try {
+        const data: NoteType = await notesService.getLastPartnerNote();
+        setLatestNote({
+          id: data.id,
+          content: data.content,
+          timestamp: new Date(data.created_at),
+        });
+      } catch (error) {
+        console.log("No hay notas disponibles aún");
+      }
+    };
+
+    fetchLastNote();
+
+    // Suscribirse a nuevas notas del otro usuario
+    const unsubscribe = notesService.suscribeChannel((notes, type) => {
+      if (type === "INSERT" && notes.length > 0) {
+        const newNoteData = notes[0];
+        setLatestNote({
+          id: newNoteData.id,
+          content: newNoteData.content,
+          timestamp: new Date(newNoteData.created_at),
+        });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,10 +62,8 @@ export function NotesSection({ notes, onSendNote }: NotesSectionProps) {
     }
   };
 
-  const latestNote = notes.length > 0 ? notes[notes.length - 1] : null;
-
   return (
-    <div className="flex flex-col h-full flex-1 min-w-0 px-2 ">
+    <div className="flex flex-col h-full flex-1 min-w-0 px-2">
       {/* Notes display area with paper texture */}
       <div className="flex-1 paper-texture rounded-lg overflow-hidden border border-border/50 shadow-inner">
         <div className="h-full p-3 overflow-y-auto">
@@ -43,7 +73,6 @@ export function NotesSection({ notes, onSendNote }: NotesSectionProps) {
                 {latestNote.content}
               </p>
               <span className="text-[10px] text-muted-foreground">
-                {latestNote.fromPartner ? "De tu pareja" : "Enviado"} -{" "}
                 {latestNote.timestamp.toLocaleTimeString("es-ES", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -52,7 +81,7 @@ export function NotesSection({ notes, onSendNote }: NotesSectionProps) {
             </div>
           ) : (
             <p className="text-sm text-muted-foreground italic text-center pt-6">
-              Sin notas aun...
+              Sin notas aún...
             </p>
           )}
         </div>

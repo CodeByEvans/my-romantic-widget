@@ -5,6 +5,7 @@ import { Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/globals/components/atoms/button";
 import { authService } from "@/modules/auth/services/auth.service";
+import { load } from "@tauri-apps/plugin-store";
 
 interface CallSectionProps {
   lastConnection: Date | null;
@@ -12,11 +13,7 @@ interface CallSectionProps {
   onCall: () => void;
 }
 
-export function CallSection({
-  lastConnection,
-  isOnline,
-  onCall,
-}: CallSectionProps) {
+export function CallSection({ lastConnection, isOnline }: CallSectionProps) {
   const formatLastConnection = (date: Date | null) => {
     if (!date) return "Sin conexion";
 
@@ -33,11 +30,42 @@ export function CallSection({
     return `Hace ${days} dias`;
   };
 
+  const reset = async () => {
+    const store = await load("store.json");
+    const connection_id = await store.get<string>("connection_id");
+    const connection_link_request_link = await store.get<string>(
+      "connection_link_request_link",
+    );
+    const theme = await store.get<string>("theme");
+    const introduction_completed = await store.get<boolean>(
+      "introduction_completed",
+    );
+    await authService.logout();
+    document.documentElement.classList.remove("light", "dark", "glass");
+    if (theme && theme !== "light") {
+      document.documentElement.classList.add(theme);
+    }
+    if (introduction_completed === true) {
+      await store.set("introduction_completed", false);
+    }
+    if (connection_link_request_link) {
+      await store.delete("connection_link_request_link");
+      await store.save();
+    }
+    if (connection_id) {
+      await store.delete("connection_id");
+      await store.save();
+    }
+    window.location.reload();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center gap-3 px-4 h-full min-w-[140px]">
       {/* Call button */}
       <Button
-        onClick={authService.logout}
+        onClick={() => {
+          reset();
+        }}
         className={cn(
           "w-14 h-14 rounded-full p-0 shadow-lg transition-all duration-300",
           "bg-call-button hover:bg-call-button/90 hover:scale-105 active:scale-95",
